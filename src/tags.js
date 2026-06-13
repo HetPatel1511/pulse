@@ -7,3 +7,4 @@ function withTags(task) {
 }
 
 module.exports = { parseTags, withTags };
+  // TODO: support multi-word tags via quotes
