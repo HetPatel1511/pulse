@@ -23,3 +23,10 @@ class Store {
 }
 
 module.exports = { Store };
+
+// Allow persistence layer to restore the id counter after a load.
+Store.prototype._restoreSeq = function (maxId) {
+  if (typeof maxId === "number" && maxId > _seqRef()) _setSeq(maxId);
+};
+function _seqRef() { return _seq; }
+function _setSeq(v) { _seq = v; }

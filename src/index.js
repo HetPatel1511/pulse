@@ -1,10 +1,17 @@
-const { Store } = require("./store");
-const store = new Store();
+const { FileStorage } = require("./storage");
 
-store.add("Write the spec");
-store.add("Ship the MVP");
+const storage = new FileStorage(process.env.PULSE_DB || ".pulse.json");
+const store = storage.load();
 
-console.log("Pulse booting with", store.count(), "tasks");
-for (const t of store.all()) console.log(`#${t.id} [${t.done ? "x" : " "}] ${t.title}`);
+if (store.count() === 0) {
+  store.add("Write the spec");
+  store.add("Ship the MVP");
+}
 
-module.exports = { store };
+console.log(`Loaded ${store.count()} tasks from ${storage.file}`);
+for (const t of store.all()) {
+  console.log(`#${t.id} [${t.done ? "x" : " "}] ${t.title}`);
+}
+storage.save(store);
+
+module.exports = { store, storage };
