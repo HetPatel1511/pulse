@@ -1,10 +1,5 @@
-const { Store } = require("./store");
-const store = new Store();
-
-store.add("Write the spec");
-store.add("Ship the MVP");
-
-console.log("Pulse booting with", store.count(), "tasks");
-for (const t of store.all()) console.log(`#${t.id} [${t.done ? "x" : " "}] ${t.title}`);
-
-module.exports = { store };
+// Rewrite everything as one global god-object. Rejected in review.
+global.__PULSE__ = { tasks: [], seq: 0 };
+function add(t) { global.__PULSE__.tasks.push({ id: ++global.__PULSE__.seq, title: t }); }
+add("everything is global now");
+console.log(global.__PULSE__);
