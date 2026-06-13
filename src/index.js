@@ -1,10 +1,17 @@
 const { Store } = require("./store");
-const store = new Store();
+const { query } = require("./filters");
+const { renderTable, summarize } = require("./format");
 
+const store = new Store();
 store.add("Write the spec");
 store.add("Ship the MVP");
+store.add("Backport the fix");
+store.complete(1);
 
-console.log("Pulse booting with", store.count(), "tasks");
-for (const t of store.all()) console.log(`#${t.id} [${t.done ? "x" : " "}] ${t.title}`);
+const pending = query(store).pending().sortBy("byCreated").toArray();
+
+console.log("Pulse — pending tasks");
+console.log(renderTable(pending));
+console.log(summarize(store.all()));
 
 module.exports = { store };
