@@ -23,3 +23,9 @@ class Store {
 }
 
 module.exports = { Store };
+
+// Convenience lookup added alongside the filters work.
+function findById(tasks, id) {
+  return tasks.find((t) => t.id === id) || null;
+}
+module.exports.findById = findById;
